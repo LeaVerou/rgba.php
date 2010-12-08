@@ -3,7 +3,7 @@
  * Script for automatic generation of one pixel
  * alpha-transparent images for non-RGBA browsers.
  * @author Lea Verou
- * @version 1.1.1
+ * @version 1.2
  * Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.php)
  ***************************************************************************************/
 
@@ -29,10 +29,10 @@ $color_names = array(
 );
 
 /**
- * If you want the generated image to have a greater size than 1x1, you may adjust the following.
+ * If you want the generated image to have a greater or smaller size than 10x10, you may adjust the following.
  * Apart from debugging purposes (it's easier to see if the image has a problem when it's something
- * larger than 1x1), some people argue that the browser needs to spend substantially more resources
- * to render the background when the image is small.
+ * large), some people argue that the browser needs to spend substantially more resources
+ * to render the background when the image is too small (like 1x1).
  */
 define('SIZE', 10);
 
@@ -57,16 +57,29 @@ if (!is_writable($dir)) {
 // Are the RGB values provided directly or implied through a named color?
 if (isset($color_names[$_REQUEST['name']])) {
 	list($red, $green, $blue) = $color_names[$_REQUEST['name']];
+	$alpha = $_REQUEST['a'] / 100;
 }
 else {
-	$red	= intval($_REQUEST['r']);
-	$green	= intval($_REQUEST['g']);
-	$blue	= intval($_REQUEST['b']);
+	if(isset($_REQUEST['r']) and isset($_REQUEST['g']) and isset($_REQUEST['b'])) {
+		// Old way: rgba.php?r=R&g=G&b=B&a=100*A
+		$color_info = $_REQUEST;
+		$alpha = $_REQUEST['a'] / 100;
+	}
+	else {
+		// New way: rgba.php/rgba(R,G,B,A)
+		$rgba_string = preg_replace('#\s+#', '', substr($_SERVER['PATH_INFO'], 1));
+		preg_match('#rgba\((?P<r>\d{1,3}),(?P<g>\d{1,3}),(?P<b>\d{1,3}),(?P<a>\d?\.\d+)\)#i', $rgba_string, $color_info);
+		$alpha	= floatval($color_info['a']);
+	}
+	
+	$red	= intval($color_info['r']);
+	$green	= intval($color_info['g']);
+	$blue	= intval($color_info['b']);
 }
 
 // "A value between 0 and 127. 0 indicates completely opaque while 127 indicates completely transparent."
 // http://www.php.net/manual/en/function.imagecolorallocatealpha.php
-$alpha = intval(127 - 127 * ($_REQUEST['a'] / 100));
+$alpha = intval(127 - 127 * $alpha);
 
 // Send headers
 header('Content-type: image/png');

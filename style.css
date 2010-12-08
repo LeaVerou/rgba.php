@@ -1,0 +1,76 @@
+html {
+	background: url('http://leaverou.me/wp-content/themes/funky-wood/images/rainbow-wood.jpg') fixed;
+	background-size: cover;
+}
+
+body {
+	width: 65%;
+	padding: .1em 1em;
+	margin: 2em auto;
+	color: white;
+	font-family: Georgia, Garamond, serif;
+	line-height: 1.5;
+	text-shadow: .1em .1em .15em rgba(0,0,0,.4);
+}
+
+pre, code {
+	font-family: Consolas, Monaco, monospace;
+}
+
+h1 {
+	color: black;
+	padding: 2.8em .6em .4em;
+	float: left;
+	margin: -.1em .5em 0 0;
+}
+
+h1 + p {
+	font-style: italic;
+}
+
+h2 {
+	font-weight: normal;
+	border-bottom: 1px solid;
+	border-color: rgba(255, 255, 255, .2);
+	line-height: 1.1;
+	margin-top: 1em;
+}
+
+a {
+	color: white;
+	text-decoration: none;
+}
+
+.getitnow {
+	text-align: center;
+	font-size: 140%;
+}
+
+.getitnow a {
+	display: inline-block;
+	padding: .5em 1.5em;
+	font-weight: bold;
+	border: 1px solid rgba(0,0,0,0.5);
+	
+	border-radius: .5em;
+	-moz-border-radius: .5em;
+	-webkit-border-radius: .5em;
+	
+	background: rgba(0,0,0,0.25);
+	
+	-webkit-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+	-moz-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+	box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+}
+
+a:hover,
+h1 {
+	text-shadow: 0 0 .5em white;
+}
+
+#footer {
+	text-align: center;
+	border-top: 1px solid;
+	font-variant: small-caps;
+	letter-spacing: .1em;
+}

@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+	<title>rgba.php test page</title>
+	<link href="style.css" rel="stylesheet" />
+	<style>
+		/* Demo */
+		body {
+			background: url('rgba.php?color=black&a=60');
+			background: rgba(0,0,0,.6);
+		}
+		
+		h1 {
+			background: url('rgba.php?r=255&g=255&b=255&a=30');
+			background: rgba(255, 255, 255, .3);
+		}
+	</style>
+</head>
+<body>
+	<h1>rgba.php</h1>
+	<p>
+		Want to use RGBA in your projects but a solid color fallback for Internet Explorer and old browsers is just not good enough?
+		Do you find that creating fallback semi-transparent pngs is too time-consuming? With rgba.php you get to use RGBA backgrounds in every browser with just one extra CSS declaration!
+		All you need is a server supporting PHP.
+	</p>
+	
+	<h2>How?</h2>
+	<pre>background: url('rgba.php?r=30&amp;g=120&amp;b=0&amp;a=70');
+background: rgba(30, 120, 0, 0.7);</pre>
+	<p>or, for named colors (you specify them, only black and white by default):</p>
+	<pre>background: url('rgba.php?color=black&amp;a=50');
+background: rgba(0, 0, 0, 0.5);</pre>
+	<p>Please note:</p>
+	<ul>
+		<li>The a parameter ranges from 0-100 instead of 0-1.</li>
+		<li>The rgba.php declaration has to come before the native RGBA one, otherwise it will be applied even in RGBA-capable browsers</li>
+	</ul>
+	<p class="getitnow"><a href="https://github.com/LeaVerou/rgba.php">Get it now from Github</a></p>
+	
+	<h2>Installation</h2>
+	<p>Just upload the file somewhere. Before you use it, open it with an editor to specify the directory you want it to use to store the created pngs (the default is <code>'colors/'</code>) and add any color names you want to be able to easily address (the defaults are white and black). If the directory you specify does not exist or isn’t writeable you’ll get an error.</p>
+	
+	<h2>History</h2>
+	<p>I wrote the first version of rgba.php as a complement to <a href="http://leaverou.me/2009/02/bulletproof-cross-browser-rgba-backgrounds/">an article on RGBA that I wrote on Februrary 2009</a>.
+	Contrary to what I expected, many people seemed to like the idea and started using it. With their valuable input, I made many changes and <a href="http://leaverou.me/2009/10/new-version-of-rgba-php-is-out/">released v.1.1</a> (1.1.1 shortly after I posted the article due to another little fix) on October 2009. 
+	A year after, since people still ask me about it and using it, I decided to make a repo for it on Github and start working on v1.2 whose main new feature will be an updated, much easier to use syntax for the URL.</p>
+	<p class="getitnow"><a href="https://github.com/LeaVerou/rgba.php">Get it now from Github</a> and <a href="https://github.com/LeaVerou/rgba.php/toggle_watch">stay updated</a></p>
+	<p id="footer">By <a href="http://leaverou.me">Lea Verou</a></p>
+</body>
+</html>

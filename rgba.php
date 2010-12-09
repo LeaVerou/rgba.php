@@ -67,8 +67,8 @@ else {
 	}
 	else {
 		// New way: rgba.php/rgba(R,G,B,A)
-		$rgba_string = preg_replace('#\s+#', '', substr($_SERVER['PATH_INFO'], 1));
-		preg_match('#rgba\((?P<r>\d{1,3}),(?P<g>\d{1,3}),(?P<b>\d{1,3}),(?P<a>\d?\.\d+)\)#i', $rgba_string, $color_info);
+		$color_info = explode(',', str_replace(' ', '', substr($_SERVER['PATH_INFO'], 6, -1)));
+		$color_info = array_combine(array('r','g','b','a'), $color_info);
 		$alpha	= floatval($color_info['a']);
 	}
 	

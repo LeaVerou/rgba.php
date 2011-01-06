@@ -20,12 +20,27 @@ define('COLORDIR', 'colors/');
 
 /**
  * If you frequently use a color with varying alphas, you can name it
- * below, to save you some typing and make your CSS easier to read.
+ * below, to save you some typing and make your CSS easier too.
+ *
+ * By default, the 16 valid HTML color names are included.
  */
 $color_names = array(
-	'white' => array(255, 255, 255),
-	'black' => array(0, 0, 0)
-	// , 'mycolor' => array(red, green, blue)
+	'aqua'    => array(0, 255, 255),
+	'black'   => array(0, 0, 0),
+	'blue'    => array(0, 0, 255),
+	'fuchsia' => array(255, 0, 255),
+	'gray'    => array(128, 128, 128),
+	'green'   => array(0, 128, 0),
+	'lime'    => array(0, 255, 0),
+	'maroon'  => array(128, 0, 0),
+	'navy'    => array(0, 0, 128),
+	'olive'   => array(128, 128, 0),
+	'purple'  => array(128, 0, 128),
+	'red'     => array(255, 0, 0),
+	'silver'  => array(192, 192, 192),
+	'teal'    => array(0, 128, 128),
+	'white'   => array(255, 255, 255),
+	'yellow'  => array(255, 255, 0)
 );
 
 /**
@@ -66,10 +81,21 @@ else {
 		$alpha = $_REQUEST['a'] / 100;
 	}
 	else {
-		// New way: rgba.php/rgba(R,G,B,A)
-		$color_info = explode(',', str_replace(' ', '', substr($_SERVER['PATH_INFO'], 6, -1)));
-		$color_info = array_combine(array('r','g','b','a'), $color_info);
-		$alpha	= floatval($color_info['a']);
+		$color_array = explode(',', $_SERVER['PATH_INFO']);
+		if (count($color_array == 2)) {
+			// New way for names: rgba.php/colorname,alpha
+			if (isset($color_names[$color_array[0]])) {
+				$color_info = $color_names[$color_array[0]];
+				$color_info[] = floatval($color_array[1]);
+			} else {
+				die("Color name {$color_array[0]} unknown.");
+			}
+		} else {
+			// New way: rgba.php/rgba(R,G,B,A)
+			$color_info = explode(',', str_replace(' ', '', substr($_SERVER['PATH_INFO'], 6, -1)));
+			$color_info = array_combine(array('r','g','b','a'), $color_info);
+			$alpha	= floatval($color_info['a']);
+		}
 	}
 	
 	$red	= intval($color_info['r']);

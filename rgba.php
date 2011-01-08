@@ -109,7 +109,7 @@ $alpha = intval(127 - 127 * $alpha);
 
 // Send headers
 header('Content-type: image/png');
-header('Expires: 01 Jan 2026 00:00:00 GMT');
+header('Expires: 01 Jan '.(date('Y') + 10).' 00:00:00 GMT');
 header('Cache-control: max-age=2903040000');
 
 // Does it already exist?
@@ -168,4 +168,4 @@ else {
 	imagedestroy($img);
 }
 
-?>
+/* End of file rgba.php */

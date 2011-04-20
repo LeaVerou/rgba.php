@@ -82,7 +82,7 @@ else {
 	}
 	else {
 		$color_array = explode(',', $_SERVER['PATH_INFO']);
-		if (count($color_array == 2)) {
+		if (count($color_array) == 2) {
 			// New way for names: rgba.php/colorname,alpha
 			if (isset($color_names[$color_array[0]])) {
 				$color_info = $color_names[$color_array[0]];

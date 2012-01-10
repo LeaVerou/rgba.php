@@ -113,7 +113,7 @@ header('Expires: 01 Jan '.(date('Y') + 10).' 00:00:00 GMT');
 header('Cache-control: max-age=2903040000');
 
 // Does it already exist?
-$filepath = COLORDIR . "color_r{$red}_g{$green}_b{$blue}_a$alpha.png";
+$filepath = COLORDIR . "color_r{$red}_g{$green}_b{$blue}_a{$alpha}.png";
 
 if(CACHEPNGS and file_exists($filepath)) {
 

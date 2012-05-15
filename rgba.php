@@ -80,8 +80,18 @@ else {
 		$color_info = $_REQUEST;
 		$alpha = $_REQUEST['a'] / 100;
 	}
+	if(isset($_REQUEST['s']) and isset($_REQUEST['h']) and isset($_REQUEST['l'])) {
+		// Old way: rgba.php?h=H&s=S&l=L&a=100*A
+		$color_info=hsl2rgb(array(
+			'h'=>$_REQUEST['h']/360,
+			's'=>$_REQUEST['s']/100,
+			'l'=>$_REQUEST['l']/100,
+		));
+		$alpha = $_REQUEST['a'] / 100;
+	}
 	else {
-		$color_array = explode(',', $_SERVER['PATH_INFO']);
+		$path_info=str_replace(' ', '', $_SERVER['PATH_INFO']);
+		$color_array = explode(',', $path_info);
 		if (count($color_array) == 2) {
 			// New way for names: rgba.php/colorname,alpha
 			if (isset($color_names[$color_array[0]])) {
@@ -90,19 +100,66 @@ else {
 			} else {
 				die("Color name {$color_array[0]} unknown.");
 			}
-		} else {
+		}
+		elseif(preg_match('#rgba#i',$path_info)>0) {
 			// New way: rgba.php/rgba(R,G,B,A)
-			$color_info = explode(',', str_replace(' ', '', substr($_SERVER['PATH_INFO'], 6, -1)));
+			$color_info = explode(',', substr($path_info, 6, -1));
 			$color_info = array_combine(array('r','g','b','a'), $color_info);
 			$alpha	= floatval($color_info['a']);
 		}
+		elseif(preg_match('#hsla#i',$path_info)>0) {
+			// New way: rgba.php/hsla(H,S,L,A)
+			$color_info = explode(',', substr($path_info, 6, -1));
+			$alpha	= floatval($color_info[3]);
+			$color_info=hsl2rgb(array(
+				'h'=>$color_info[0]/360,
+				's'=>$color_info[1]/100,
+				'l'=>$color_info[2]/100,
+			));
+		}
 	}
-	
 	$red	= intval($color_info['r']);
 	$green	= intval($color_info['g']);
 	$blue	= intval($color_info['b']);
 }
-
+function hsl2rgb($hsl) //array("h"=>0,"s"=>0,"l"=>0) //h,s,l : [0-1]
+{
+	$q=($hsl['l'] < 1 / 2)
+		? $hsl['l'] * (1 + $hsl['s'])
+		: $hsl['l'] + $hsl['s'] - ($hsl['l'] * $hsl['s']);
+	
+	$p = 2 * $hsl['l'] - $q;	
+	$tr = $hsl['h'] + 1 / 3;
+	$tg = $hsl['h'];
+	$tb = $hsl['h'] - 1 / 3;
+	
+	$tc = array($tr,$tg,$tb);
+	foreach($tc as $n=>$t)
+	{
+		while ($t < 0) $t += 1;
+		while ($t > 1) $t -= 1;
+		if ($t < 1 / 6)
+		{
+			$tc[$n] = $p + (($q - $p) * 6 * $t);
+		} else if ($t < 1 / 2)
+		{
+			$tc[$n] = $q;
+		} else if ($t < 2 / 3)
+		{
+			$tc[$n] = $p + (($q - $p) * 6 * (2 / 3 - $t));
+		} else
+		{
+			$tc[$n] = $p;
+		}
+		$tc[$n]=round($tc[$n]*255);
+	}
+	
+	return array(
+		"r"=>$tc[0],
+		"g"=>$tc[1],
+		"b"=>$tc[2],
+	);
+}
 // "A value between 0 and 127. 0 indicates completely opaque while 127 indicates completely transparent."
 // http://www.php.net/manual/en/function.imagecolorallocatealpha.php
 $alpha = intval(127 - 127 * $alpha);

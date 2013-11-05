@@ -81,6 +81,9 @@ else {
 		$alpha = $_REQUEST['a'] / 100;
 	}
 	else {
+		if (empty($_SERVER['PATH_INFO'])) {
+			$_SERVER['PATH_INFO'] = rawurldecode(substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME'])));
+		}
 		$color_array = explode(',', $_SERVER['PATH_INFO']);
 		if (count($color_array) == 2) {
 			// New way for names: rgba.php/colorname,alpha
